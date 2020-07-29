@@ -22,6 +22,12 @@ function RecipeApp() {
         const updatedRecipes = recipes.filter(recipe => recipe.id !== recipeId)
         setRecipes(updatedRecipes);
     }
+    const editRecipe = (recipeId, newRecipeName) => {
+        const updatedRecipes = recipes.map(recipe =>
+            recipe.id === recipeId ? {...recipe, name: newRecipeName} : recipe
+        )
+        setRecipes(updatedRecipes);
+    }
     return (
         <Paper
         style={{
@@ -38,7 +44,7 @@ function RecipeApp() {
             <Grid container justify='center' style={{ marginTop: "1rem" }}>
                 <Grid item xs={11} md={8} lg={4}>
                     <RecipeForm addRecipe={addRecipe}/>
-                    <RecipeList recipes={recipes} removeRecipe={removeRecipe}/>
+                    <RecipeList recipes={recipes} removeRecipe={removeRecipe} editRecipe={editRecipe}/>
                 </Grid>
             </Grid>
         </Paper>
