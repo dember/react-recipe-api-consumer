@@ -4,6 +4,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import RecipeList from "./RecipeList";
+import RecipeForm from "./RecipeForm";
+import Grid from "@material-ui/core/Grid";
 
 function RecipeApp() {
     const initialRecipes = [
@@ -12,6 +14,9 @@ function RecipeApp() {
         {id: 3, name: 'Recipe name 3', description: 'Description 3'},
     ]
     const [recipes, setRecipes] = useState(initialRecipes)
+    const AddRecipe = newRecipeName => {
+        setRecipes([...recipes, {id: 4, name: newRecipeName, description: 'Description 4'}])
+    }
     return (
         <Paper
         style={{
@@ -25,7 +30,12 @@ function RecipeApp() {
                     <Typography color='inherit'>Recipe App</Typography>
                 </Toolbar>
             </AppBar>
-            <RecipeList recipes={recipes}/>
+            <Grid container justify='center' style={{ marginTop: "1rem" }}>
+                <Grid item xs={11} md={8} lg={4}>
+                    <RecipeForm addRecipe={AddRecipe}/>
+                    <RecipeList recipes={recipes}/>
+                </Grid>
+            </Grid>
         </Paper>
     )
 }
