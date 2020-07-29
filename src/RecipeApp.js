@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import RecipeList from "./RecipeList";
 import RecipeForm from "./RecipeForm";
 import Grid from "@material-ui/core/Grid";
+import { v4 as uuid } from 'uuid';
 
 function RecipeApp() {
     const initialRecipes = [
@@ -14,8 +15,12 @@ function RecipeApp() {
         {id: 3, name: 'Recipe name 3', description: 'Description 3'},
     ]
     const [recipes, setRecipes] = useState(initialRecipes)
-    const AddRecipe = newRecipeName => {
-        setRecipes([...recipes, {id: 4, name: newRecipeName, description: 'Description 4'}])
+    const addRecipe = newRecipeName => {
+        setRecipes([...recipes, {id: uuid(), name: newRecipeName, description: 'Description 4'}])
+    }
+    const removeRecipe = recipeId => {
+        const updatedRecipes = recipes.filter(recipe => recipe.id !== recipeId)
+        setRecipes(updatedRecipes);
     }
     return (
         <Paper
@@ -32,8 +37,8 @@ function RecipeApp() {
             </AppBar>
             <Grid container justify='center' style={{ marginTop: "1rem" }}>
                 <Grid item xs={11} md={8} lg={4}>
-                    <RecipeForm addRecipe={AddRecipe}/>
-                    <RecipeList recipes={recipes}/>
+                    <RecipeForm addRecipe={addRecipe}/>
+                    <RecipeList recipes={recipes} removeRecipe={removeRecipe}/>
                 </Grid>
             </Grid>
         </Paper>
