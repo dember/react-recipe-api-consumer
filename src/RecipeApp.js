@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -9,12 +9,13 @@ import Grid from "@material-ui/core/Grid";
 import { v4 as uuid } from 'uuid';
 
 function RecipeApp() {
-    const initialRecipes = [
-        {id: 1, name: 'Recipe name 1', description: 'Description 1'},
-        {id: 2, name: 'Recipe name 2', description: 'Description 2'},
-        {id: 3, name: 'Recipe name 3', description: 'Description 3'},
-    ]
+    const initialRecipes = JSON.parse(window.localStorage.getItem('recipes') || "[]");
     const [recipes, setRecipes] = useState(initialRecipes)
+
+    useEffect(() => {
+        window.localStorage.setItem('recipes', JSON.stringify(recipes));
+    }, [recipes])
+
     const addRecipe = newRecipeName => {
         setRecipes([...recipes, {id: uuid(), name: newRecipeName, description: 'Description 4'}])
     }

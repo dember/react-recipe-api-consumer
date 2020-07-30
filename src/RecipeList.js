@@ -5,6 +5,10 @@ import Divider from "@material-ui/core/Divider";
 import Recipe from "./Recipe";
 
 function RecipeList({recipes, removeRecipe, editRecipe}) {
+    if (!recipes.length) {
+        return null;
+    }
+
     return (
         <Paper>
             <List>
