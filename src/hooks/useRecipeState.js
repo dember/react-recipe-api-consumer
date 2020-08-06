@@ -1,22 +1,43 @@
-import {v4 as uuid} from "uuid";
 import {useState} from "react";
+import {createRecipe, removeRecipe, updateRecipe} from "../api/apiClient";
 
 export default initialRecipes => {
     const [recipes, setRecipes] = useState(initialRecipes)
+
     return {
         recipes,
         addRecipe: newRecipeName => {
-            setRecipes([...recipes, {id: uuid(), name: newRecipeName, description: 'Description 4'}])
+            createRecipe({
+                name: newRecipeName,
+                description: 'Description 4',
+                ingredients: []
+            }).then(response => setRecipes(
+                [...recipes, {id: response.data.id, name: newRecipeName, description: 'Description 4'}])
+            )
         },
         removeRecipe: recipeId => {
-            const updatedRecipes = recipes.filter(recipe => recipe.id !== recipeId)
-            setRecipes(updatedRecipes);
+            removeRecipe(recipeId).then(
+                () => {
+                    const updatedRecipes = recipes.filter(recipe => recipe.id !== recipeId)
+                    setRecipes(updatedRecipes);
+                }
+            )
         },
         editRecipe: (recipeId, newRecipeName) => {
-            const updatedRecipes = recipes.map(recipe =>
-                recipe.id === recipeId ? {...recipe, name: newRecipeName} : recipe
-            )
-            setRecipes(updatedRecipes);
+            updateRecipe({
+                id: recipeId,
+                name: newRecipeName,
+                description: 'Description 4',
+                ingredients: []
+            }).then(() => {
+                const updatedRecipes = recipes.map(recipe =>
+                    recipe.id === recipeId ? {...recipe, name: newRecipeName} : recipe
+                )
+                setRecipes(updatedRecipes);
+            })
+        },
+        updateRecipes: recipes => {
+            setRecipes(recipes)
         }
     }
 };

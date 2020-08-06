@@ -7,14 +7,39 @@ import RecipeList from "./RecipeList";
 import RecipeForm from "./RecipeForm";
 import Grid from "@material-ui/core/Grid";
 import useRecipeState from "./hooks/useRecipeState";
+import axios from "axios";
+import InputBase from "@material-ui/core/InputBase";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    inputRoot: {
+        color: 'inherit',
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
+        },
+    }
+}));
 
 function RecipeApp() {
-    const initialRecipes = JSON.parse(window.localStorage.getItem('recipes') || "[]");
-    const {recipes, editRecipe, removeRecipe, addRecipe} = useRecipeState(initialRecipes);
+    const classes = useStyles();
+
+    const {recipes, editRecipe, removeRecipe, addRecipe, updateRecipes} = useRecipeState([]);
+
+    const fetchRecipes = () => axios.get('/api/recipes/', {headers: {Accept: "application/json"}})
+        .then(response => {
+            console.log(response.data);
+            updateRecipes(response.data);
+        });
 
     useEffect(() => {
-        window.localStorage.setItem('recipes', JSON.stringify(recipes));
-    }, [recipes])
+        fetchRecipes()
+    }, [])
 
     return (
         <Paper
@@ -27,6 +52,20 @@ function RecipeApp() {
             <AppBar color='primary' position='static' style={{ height: "64px" }}>
                 <Toolbar>
                     <Typography color='inherit'>Recipe App</Typography>
+                    <InputBase onChange={event => {
+                        axios.get(`/api/recipes/?name=${event.target.value}`, {headers: {Accept: "application/json"}})
+                            .then(response => {
+                                console.log(response.data);
+                                updateRecipes(response.data);
+                            });
+                    }}
+                        placeholder="Search recipe…"
+                        classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput,
+                        }}
+                        inputProps={{ 'aria-label': 'search recipe' }}
+                    />
                 </Toolbar>
             </AppBar>
             <Grid container justify='center' style={{ marginTop: "1rem" }}>
