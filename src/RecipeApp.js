@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React, {useContext} from "react"
 import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -6,10 +6,10 @@ import Typography from "@material-ui/core/Typography";
 import RecipeList from "./RecipeList";
 import RecipeForm from "./RecipeForm";
 import Grid from "@material-ui/core/Grid";
-import useRecipeState from "./hooks/useRecipeState";
 import axios from "axios";
 import InputBase from "@material-ui/core/InputBase";
 import { makeStyles } from '@material-ui/core/styles';
+import {RecipeContext} from "./RecipeContext";
 
 const useStyles = makeStyles((theme) => ({
     inputRoot: {
@@ -29,17 +29,7 @@ const useStyles = makeStyles((theme) => ({
 function RecipeApp() {
     const classes = useStyles();
 
-    const {recipes, editRecipe, removeRecipe, addRecipe, updateRecipes} = useRecipeState([]);
-
-    const fetchRecipes = () => axios.get('/api/recipes/', {headers: {Accept: "application/json"}})
-        .then(response => {
-            console.log(response.data);
-            updateRecipes(response.data);
-        });
-
-    useEffect(() => {
-        fetchRecipes()
-    }, [])
+    const {recipes, editRecipe, removeRecipe, addRecipe, updateRecipes} = useContext(RecipeContext);
 
     return (
         <Paper
