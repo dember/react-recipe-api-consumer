@@ -13,11 +13,10 @@ function App() {
 
     useEffect(() => {
         getRecipes().then(response => {
-            console.log('Response data from server', response.data)
             updateRecipes(response.data);
         }).catch( (error) => {
             alert("There was an error while fetching recipes!")
-            console.log(error)
+            console.error(error)
         });
     }, [])
 

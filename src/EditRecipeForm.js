@@ -100,7 +100,6 @@ function EditRecipeForm({match}) {
                     }}
                     style={{width:'50%'}}
                 >
-                    {console.log('recipeIngredientsInput vale esto:', recipeIngredientsInput)}
                     <TextField
                         label="Name"
                         margin='normal'
@@ -119,24 +118,21 @@ function EditRecipeForm({match}) {
                     />
                     {recipeIngredientsInput.map( (ingredient, index) => {
                         return (
-                            <>
-                                <TextField
-                                    onChange={ event => { handleChangeIngredients(index, event) } }
-                                    key={ingredient.id}
-                                    value={ingredient.name}
-                                    label="Ingredient"
-                                    margin='normal'
-                                    fullWidth
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <Button variant="contained" onClick={event => removeIngredient(event, index)}>X</Button>
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-
-                            </>
+                            <TextField
+                                onChange={ event => { handleChangeIngredients(index, event) } }
+                                key={ingredient.id}
+                                value={ingredient.name}
+                                label="Ingredient"
+                                margin='normal'
+                                fullWidth
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <Button variant="contained" onClick={event => removeIngredient(event, index)}>X</Button>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
                         )
                     })}
                     <div style={{marginTop: 20}}>

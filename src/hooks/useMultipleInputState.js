@@ -15,8 +15,6 @@ export default initialVal => {
       else
         return { ...ingredient };
     });
-  console.log('original vale', value)
-  console.log('updatedIngredients vale', updatedIngredients)
 
     setValue(updatedIngredients);
   };
