@@ -10,6 +10,7 @@ import axios from "axios";
 import InputBase from "@material-ui/core/InputBase";
 import { makeStyles } from '@material-ui/core/styles';
 import {RecipeContext} from "./RecipeContext";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     inputRoot: {
@@ -41,11 +42,10 @@ function RecipeApp() {
         }}>
             <AppBar color='primary' position='static' style={{ height: "64px" }}>
                 <Toolbar>
-                    <Typography color='inherit'>Recipe App</Typography>
+                    <Typography color='inherit'><Link to='/' style={{ textDecoration: 'none', color: 'white' }}>Recipe App</Link></Typography>
                     <InputBase onChange={event => {
                         axios.get(`/api/recipes/?name=${event.target.value}`, {headers: {Accept: "application/json"}})
                             .then(response => {
-                                console.log(response.data);
                                 updateRecipes(response.data);
                             });
                     }}

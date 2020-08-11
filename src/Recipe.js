@@ -5,6 +5,7 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import {Link} from "react-router-dom";
 
 function Recipe({recipe, removeRecipe, editRecipe}) {
     return (
@@ -13,11 +14,12 @@ function Recipe({recipe, removeRecipe, editRecipe}) {
                     {recipe.name}
                 </ListItemText>
                 <ListItemSecondaryAction>
-                    <a href={`/recipe/edit/${recipe.id}`}>
+                    <Link to={`/recipe/edit/${recipe.id}`}  style={{ textDecoration: 'none', color: 'white' }}>
                         <IconButton aria-label='Edit'>
                             <EditIcon />
                         </IconButton>
-                    </a>
+                    </Link>
+
                     <IconButton aria-label='Delete' onClick={() => removeRecipe(recipe.id)}>
                         <DeleteIcon/>
                     </IconButton>

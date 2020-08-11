@@ -9,10 +9,10 @@ export default initialRecipes => {
         addRecipe: newRecipeName => {
             createRecipe({
                 name: newRecipeName,
-                description: 'Description 4',
+                description: '',
                 ingredients: []
             }).then(response => setRecipes(
-                [...recipes, {id: response.data.id, name: newRecipeName, description: 'Description 4'}])
+                [...recipes, {id: response.data.id, name: newRecipeName, description: ''}])
             )
         },
         removeRecipe: recipeId => {
@@ -23,15 +23,16 @@ export default initialRecipes => {
                 }
             )
         },
-        editRecipe: (recipeId, newRecipeName) => {
+        editRecipe: (recipeId, newRecipe) => {
             updateRecipe({
                 id: recipeId,
-                name: newRecipeName,
-                description: 'Description 4',
-                ingredients: []
+                name: newRecipe.name,
+                description: newRecipe.description,
+                ingredients: newRecipe.ingredients
             }).then(() => {
                 const updatedRecipes = recipes.map(recipe =>
-                    recipe.id === recipeId ? {...recipe, name: newRecipeName} : recipe
+                    recipe.id === recipeId ? {...recipe, name: newRecipe.name, description: newRecipe.description,
+                        ingredients: newRecipe.ingredients} : recipe
                 )
                 setRecipes(updatedRecipes);
             })
